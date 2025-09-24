@@ -5,16 +5,13 @@ import re
 import sys
 
 
-week_suffix = "Aug18"
-strava_club_name = "San Jose, California Club _ ADB FIT Season 6 on Strava"
-
-
-# The HTML file on which this script operates
-HTML_FILE_PATH = strava_club_name+"_"+week_suffix+".html"
+week_suffix = "Sep15"
+strava_club_names = ["San Jose, California Club _ ADB FIT Season 6 on Strava",
+                     "San Jose, California Club _ Adb fit 6 take2 on Strava"]
 
 
 # The CSV file that will be created/written out as part of the export process
-CSV_FILE_PATH = strava_club_name+"_output_"+week_suffix+".csv"
+CSV_FILE_PATH = strava_club_names[0]+"_output_"+week_suffix+".csv"
 
 
 # You'll need this if you want to maintain the strava ID as the key in your calculations. Members often change their strava names. 
@@ -81,7 +78,7 @@ members_dict = {
     '179513424' : 'Rahul Gupta',
     '143909928' : 'raj desikavinayagompillai',
     '158614021' : 'Ramya Kudithipudi',
-    '179551583' : 'rani uppal',
+    '179551583' : 'Syamala  Uppalapati',    
     '179047760' : 'Ranjit M',
     '113508445' : 'Ravi N',
     '179874165' : 'Reeba Thomas',
@@ -115,7 +112,6 @@ members_dict = {
     '148713878' : 'Sripoorna  Amarnath',
     '42152917' : 'Subha Rajagopalan',
     '114064659' : 'Sujeet Bambawale',
-    '148191125' : 'Sulu R',
     '157545267' : 'Sumanth Kubair',
     '179698082' : 'Supriya Patil',
     '180294038' : 'Supriya Sheshu',
@@ -129,7 +125,13 @@ members_dict = {
     '45788979' : 'Vikram Rao',
     '148772002' : 'Vishwas Manral',
     '19859082' : 'Vivek Ramanna',
-    '179048330' : 'Zarna J'
+    '179048330' : 'Zarna J',
+    '175379430' : 'Uma Subbiah',
+    '13722148' : 'Apurva Kansara',
+    '185070666' :'Vandana Shah',
+    '184634401': 'Shyamala Shastri',
+    '185871244' : 'Raj Shah',
+    '185224026' : 'Neha Dedhia Shah'
 }
 
 def swap_dict_keys_values(dict_to_swap):
@@ -176,8 +178,18 @@ def process_data():
     
     swapped_dict = swap_dict_keys_values(members_dict)
 
+
+    # The HTML files on which this script operates
+    html_file1 = strava_club_names[0]+"_"+week_suffix+".html"
+    html_file2 = strava_club_names[1]+"_"+week_suffix+".html"
+
     # Parse HTML and create DataFrame
-    df = parse_html_to_df(HTML_FILE_PATH)
+    df1 = parse_html_to_df(html_file1)     
+    df2 = parse_html_to_df(html_file2)    
+        
+    df = pd.concat([df1, df2], ignore_index = True)
+    
+    df = df.drop_duplicates() 
     print("DataFrame before adding Strava ID:")
     print(df)
 
