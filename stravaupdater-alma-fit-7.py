@@ -4,11 +4,13 @@ import json
 import re
 import sys
 
-
+# Constants for season 7
 strava_club_names = [
     "San Jose, California Club _ Almaden Fit - Season 7 (Group 1 - Odds) on Strava",
     "San Jose, California Club _ Almaden Fit - Season 7 (Group 2 - Evens) on Strava"
 ]
+
+output_file = "Almaden Fit - Season 7"+"_output_"
 
 
 def time_to_minutes(time_str):
@@ -27,13 +29,13 @@ def remove_miles(miles_str):
 def remove_feet(feet_str):
     return feet_str.replace("ft", "").strip()
     
+# Parse the Strava leaderboard html into a DataFrame
 def parse_strava_leaderboard(html_file):
 
     with open(html_file, 'r', encoding='utf-8') as file:
         content = file.read()
 
     soup = BeautifulSoup(content, 'html.parser')
-
 
     # Find all rows in the table body
     tables = soup.find_all('table')
@@ -104,7 +106,8 @@ def process_data(week_suffix):
         
     df = pd.concat([df1, df2], ignore_index = True)
     
-    df = df.drop_duplicates() 
+    df = df.drop_duplicates()
+    df_sorted = df.sort_values(by="Athlete")
 
     # Swap second column with the last column
     #    columns = df.columns.tolist()
@@ -113,13 +116,13 @@ def process_data(week_suffix):
 
 
     # The CSV file that will be created/written out as part of the export process
-    CSV_FILE_PATH = "Almaden Fit - Season 7"+"_output_"+week_suffix+".csv"
+    CSV_FILE_PATH = output_file+week_suffix+".csv"
     
     # Save DataFrame to CSV
-    df.to_csv(CSV_FILE_PATH, index=False, header=True)
+    df_sorted.to_csv(CSV_FILE_PATH, index=False, header=True)
     print("CSV file has been created successfully.")
     print("Final DataFrame:")
-    print(df)
+    print(df_sorted)
 
 if __name__ == "__main__":
 
