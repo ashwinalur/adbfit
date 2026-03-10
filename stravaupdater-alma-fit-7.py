@@ -50,8 +50,9 @@ def parse_strava_leaderboard(html_file):
     headers = [th.get_text(strip=True) for th in header_row]
     
     # Insert 'Strava URL' and 'Strava ID' after 'Athlete' (the 2nd column)
-    headers.insert(7, "Strava URL")
-    headers.insert(8, "Strava ID")
+    headers.remove("Rank")
+    headers.insert(6, "Strava URL")
+    headers.insert(7, "Strava ID")
 
     # 2. Extract Data from <tbody>
     # This automatically skips the header row because headers are in <thead>
@@ -61,7 +62,6 @@ def parse_strava_leaderboard(html_file):
     for row in rows:
         
         # 1. Extract standard columns
-        rank = row.find('td', class_='rank').text.strip()
     
         # Athlete info is special
         athlete_cell = row.find('td', class_='athlete')
@@ -85,7 +85,7 @@ def parse_strava_leaderboard(html_file):
 
         # 2. Add to our list
         data_list.append([
-            rank, athlete_name, time, activities, distance, elev_gain, strava_url, strava_id
+            athlete_name, time, activities, distance, elev_gain, strava_url, strava_id
         ])
                       
     return pd.DataFrame(data_list, columns=headers) 
@@ -106,8 +106,7 @@ def process_data(week_suffix):
         
     df = pd.concat([df1, df2], ignore_index = True)
     
-    df = df.drop_duplicates()
-    df_sorted = df.sort_values(by="Athlete")
+    df_sorted = df.drop_duplicates().sort_values(by="Athlete")
 
     # Swap second column with the last column
     #    columns = df.columns.tolist()
