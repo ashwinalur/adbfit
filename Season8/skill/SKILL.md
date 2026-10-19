@@ -24,7 +24,7 @@
 
 - Write only to the side copy workbook `1t7ks-KraK3f1i8KAumJc6mnpGE5UpVGVnV1AhzUMnTc`. Never write the main copy `1-_PCB1gXXXyxy6YRhBp90PXeKj3mjMD9Q6d5snjPFSA` or the verification workbook `1yJf-p57m3dYsXkdSYyHfBWCPL8K_yNbDZnPei5c9HcA`. You may read the main copy for comparison, never write it.
 
-- Write the weekly CSV into a new tab named for the week start, for example `Oct12`, covering range A1:G with `values update` and `USER_ENTERED`.
+- Write the weekly CSV into a new tab named for the week start, for example `Oct12`, covering range A1:G with `values update` and `valueInputOption` `RAW`. RAW matters: Master Tracking looks up the Strava ID as text with `trim($E{row})`, so writing the ID column as numbers breaks every XLOOKUP and zeroes the week. Keep every cell as the CSV string and let the formula `value()` wrapper do the numeric conversion.
 
 - Extend Master Tracking with the new week column. First put the week start date in the header cell, for example V2, because the formulas derive the tab name from it with `text(V$2,"mmmdd")`. Then fill rows 3 to 129 with this pattern, replacing V with the new column letter:
   `=min(1680,value(XLOOKUP(trim($E{row}),INDIRECT("'"&text(V$2,"mmmdd")&"'!$G$1:$G$200"),INDIRECT("'"&text(V$2,"mmmdd")&"'!$B$1:$B$200"),0)))`
