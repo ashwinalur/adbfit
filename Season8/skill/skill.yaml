@@ -1,0 +1,5 @@
+name: "ffc_side_copy_data_pull"
+title: "FFC side copy data pull"
+description: "Weekly Fall Fitness Challenge data pull: extracts both Strava clubs' Last Week leaderboards read-only, runs the local dedupe pipeline, and updates the side-copy workbook's weekly tab, Master Tracking formulas, and leaderboards without touching the main copy."
+category: "Health and fitness"
+include_in_prompt: false
