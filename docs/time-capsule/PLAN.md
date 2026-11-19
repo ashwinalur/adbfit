@@ -4,6 +4,17 @@ _Status: proposal awaiting founder approval · 2026-11-19_
 
 ---
 
+> **Addendum (2026-11-19) — `ashwinalur/time-capsule` is not empty.** It is a private repo holding a ~1,500-line single-user prototype
+> (React 19 + Bun server actions + Drizzle/SQLite, built on a hosted "web artifact" runtime: `@hatch/space-sdk`, `space.json`, `AGENTS.md`).
+> It already has a memory vault, Mirror / Time Travel (server-side date cutoff) modes, preview Projection/Shadow, JSON export, an audit-log table
+> and a labelled demo AI provider. It has **no auth, no per-user isolation, no embeddings, no Postgres**, and is tied to a proprietary runtime
+> that is not portable. Nothing in it has been changed. The recommendation in sections 1 and 4 therefore becomes a choice for the founder:
+> (A) keep it as a reference prototype in `legacy/` and build the monorepo beside it, reusing its ideas (provenance labels, retrospective tagging,
+> confirm-before-save); (B) extend it in place and stay on the hosted runtime (faster, but SQLite + vendor runtime limit multi-user, pgvector and portability);
+> (C) start fresh on a new branch and leave `main` untouched. Recommended: **A**. Nothing is overwritten until approved.
+
+---
+
 ## 1. Repository assessment
 
 | Finding | Detail |
